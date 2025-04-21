@@ -40,7 +40,7 @@ export function UtteranceMeter({
     // Initialize speech recognition if available in the browser
     if (typeof window !== "undefined") {
       try {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+        const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition
 
         if (SpeechRecognition) {
           const recognitionInstance = new SpeechRecognition()
@@ -104,7 +104,7 @@ export function UtteranceMeter({
         }
       }
     }
-  }, [text, language, minScore, onSuccess, onScoreChange])
+  }, [text, language, minScore, onSuccess, onScoreChange, attempts])
 
   const toggleListening = () => {
     if (!recognition) {
@@ -195,7 +195,8 @@ export function UtteranceMeter({
 
     // Initialize matrix
     for (let i = 0; i <= len1; i++) {
-      matrix[i] = [i]
+      matrix[i] = new Array(len2 + 1)
+      matrix[i][0] = i
     }
 
     for (let j = 0; j <= len2; j++) {
