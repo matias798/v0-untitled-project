@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -41,6 +43,13 @@ export function TranslationExercise({ question, onCorrect, onNext, onPlayAudio }
       .trim()
       .replace(/[.,!?;:]/g, "") // Eliminar puntuación
       .replace(/\s+/g, " ") // Normalizar espacios
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault()
+      checkAnswer()
+    }
   }
 
   const checkAnswer = () => {
@@ -102,6 +111,7 @@ export function TranslationExercise({ question, onCorrect, onNext, onPlayAudio }
           placeholder="Escribe tu traducción aquí..."
           value={userAnswer}
           onChange={(e) => setUserAnswer(e.target.value)}
+          onKeyDown={handleKeyDown}
           disabled={isAnswered}
           className="min-h-[100px] mt-4"
         />
